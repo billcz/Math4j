@@ -4,6 +4,8 @@ package org.billcz.common.math;
 import org.billcz.common.math.dense.imp.DefaultDenseDoubleMatrixMultiD;
 import org.billcz.common.math.subscripts.Subscripts;
 
+import java.util.Iterator;
+
 /**
  * Description:
  * Author: billcz
@@ -38,7 +40,7 @@ public abstract class MatrixMultiD extends Matrix {
 
     }
 
-    public Iterable<int[]> allValues() {
+    public Iterator<int[]> allValues() {
         return null;
     }
 

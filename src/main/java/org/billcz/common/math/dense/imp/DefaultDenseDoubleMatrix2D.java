@@ -3,6 +3,7 @@ package org.billcz.common.math.dense.imp;
 import org.billcz.common.math.Matrix2D;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * Description:
@@ -50,11 +51,27 @@ public class DefaultDenseDoubleMatrix2D extends Matrix2D {
         return false;
     }
 
-    public Iterable<int[]> allValues() {
-        return null;
+    public Iterator<int[]> allValues() {
+        return new DefaultDenseDoubleMatrix2DIterate();
     }
 
-    public Iterable<int[]> allNotZeroValues() {
-        return null;
+    class DefaultDenseDoubleMatrix2DIterate implements Iterator<int[]> {
+        private int currentIndex = 0;
+
+        public boolean hasNext() {
+            return currentIndex != values.length;
+        }
+
+        public int[] next() {
+            int[] subscripts = new int[2];
+            subscripts[0] = currentIndex / getCols();
+            subscripts[1] = currentIndex % getCols();
+            return subscripts;
+        }
+
+        public void remove() {
+
+        }
     }
+
 }

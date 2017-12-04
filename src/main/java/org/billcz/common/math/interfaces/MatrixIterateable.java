@@ -1,6 +1,6 @@
 package org.billcz.common.math.interfaces;
 
-import org.billcz.common.math.subscripts.Subscripts;
+import java.util.Iterator;
 
 /**
  * Description:
@@ -9,8 +9,6 @@ import org.billcz.common.math.subscripts.Subscripts;
  */
 public interface MatrixIterateable {
 
-    public Iterable<int[]> allValues();
-
-    public Iterable<int[]> allNotZeroValues();
+    public Iterator<int[]> allValues();
 
 }

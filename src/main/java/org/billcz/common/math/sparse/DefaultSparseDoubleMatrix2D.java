@@ -3,6 +3,7 @@ package org.billcz.common.math.sparse;
 import org.billcz.common.math.Matrix2D;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -30,12 +31,27 @@ public class DefaultSparseDoubleMatrix2D extends Matrix2D  {
         return values.get(makeIndex(i, j));
     }
 
-    public Iterable<int[]> allValues() {
-        return null;
+    public Iterator<int[]> allValues() {
+        return new DefaultSparseDoubleMatrix2DIterate();
     }
 
-    public Iterable<int[]> allNotZeroValues() {
-        return null;
+    class DefaultSparseDoubleMatrix2DIterate implements Iterator<int[]> {
+        private int currentIndex = 0;
+
+        public boolean hasNext() {
+            return currentIndex != values.size();
+        }
+
+        public int[] next() {
+            int[] subscripts = new int[2];
+            subscripts[0] = currentIndex / getCols();
+            subscripts[1] = currentIndex % getCols();
+            return subscripts;
+        }
+
+        public void remove() {
+
+        }
     }
 
 }

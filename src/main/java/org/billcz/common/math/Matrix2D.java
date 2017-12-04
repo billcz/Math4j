@@ -3,7 +3,10 @@ package org.billcz.common.math;
 
 import org.billcz.common.math.dense.imp.DefaultDenseDoubleMatrix2D;
 import org.billcz.common.math.interfaces.Matrix2DProperties;
+import org.billcz.common.math.sparse.DefaultSparseDoubleMatrix2D;
 import org.billcz.common.math.subscripts.Subscripts;
+
+import java.util.Iterator;
 
 /**
  * Description:
@@ -116,10 +119,15 @@ public abstract class Matrix2D extends Matrix implements Matrix2DProperties {
 
     public Matrix add(Matrix other) {
         if (other.getDimensions() != 2) return null;
+        Matrix result = new DefaultDenseDoubleMatrix2D(rows, cols);
 
-        Matrix result = Matrix.create(other.getMatrixSizes());
+        if (isSparse() || other.isSparse()) {
+            result = new DefaultSparseDoubleMatrix2D(rows, cols);
+        }
 
-        for (int[] subscripts : other.allNotZeroValues()) {
+        Iterator<int[]> it = other.allValues();
+        while (it.hasNext()) {
+            int[] subscripts = it.next();
             double sum = this.get(subscripts) + other.get(subscripts);
             result.set(sum, subscripts);
         }
