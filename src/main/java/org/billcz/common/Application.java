@@ -14,8 +14,9 @@ public class Application {
         System.out.println(m1.toString());
         System.out.println(m1.get(0,1));
 
-        Matrix m2 = Matrix.create(4,3);
+        Matrix m2 = Matrix.random(4,3);
         m2.set(3.0, 1, 1);
+        System.out.println(m2);
         System.out.println(m2.add(m1).toString());
     }
 }

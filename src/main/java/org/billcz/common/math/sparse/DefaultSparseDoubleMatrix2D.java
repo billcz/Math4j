@@ -46,6 +46,7 @@ public class DefaultSparseDoubleMatrix2D extends Matrix2D  {
             int[] subscripts = new int[2];
             subscripts[0] = currentIndex / getCols();
             subscripts[1] = currentIndex % getCols();
+            currentIndex++;
             return subscripts;
         }
 
