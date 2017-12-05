@@ -10,14 +10,16 @@ import org.billcz.common.math.Matrix;
 public class Application {
     public static void main(String[] args) {
         Matrix m1 = Matrix.random(4, 3);
-        m1.set(2.0, 1, 1);
         System.out.println(m1.toString());
-        System.out.println(m1.get(0,1));
+//        System.out.println(m1.get(0,1));
+//
+//        Matrix m2 = Matrix.random(4,4);
+//        m2.set(3.0, 1, 1);
+//        System.out.println(m2);
+//        System.out.println(m2.multiply(m1));
+//        System.out.println(Matrix.random(1, 20));
 
-        Matrix m2 = Matrix.random(4,4);
-        m2.set(3.0, 1, 1);
-        System.out.println(m2);
-        System.out.println(m2.multiply(m1));
-        System.out.println(Matrix.random(1, 20));
+        System.out.println(m1.getMatrix(Matrix.DIMENSION_WILDCARD, 2));
+        System.out.println(m1.getMatrix(2, Matrix.DIMENSION_WILDCARD));
     }
 }

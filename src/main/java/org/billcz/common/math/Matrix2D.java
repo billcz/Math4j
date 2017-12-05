@@ -2,10 +2,12 @@ package org.billcz.common.math;
 
 
 import org.billcz.common.math.dense.imp.DefaultDenseDoubleMatrix2D;
+import org.billcz.common.math.interfaces.Matrix2DOperation;
 import org.billcz.common.math.interfaces.Matrix2DProperties;
 import org.billcz.common.math.sparse.DefaultSparseDoubleMatrix2D;
 import org.billcz.common.math.subscripts.Subscripts;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -13,7 +15,7 @@ import java.util.Iterator;
  * Author: billcz
  * Create time: 2017/12/4
  */
-public abstract class Matrix2D extends Matrix implements Matrix2DProperties {
+public abstract class Matrix2D extends Matrix implements Matrix2DProperties, Matrix2DOperation {
     private int rows;
     private int cols;
 
@@ -79,6 +81,7 @@ public abstract class Matrix2D extends Matrix implements Matrix2DProperties {
         return getMatrixSizes()[n];
     }
 
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -103,8 +106,39 @@ public abstract class Matrix2D extends Matrix implements Matrix2DProperties {
         return new Subscripts.SubscriptIterable(getMatrixSizes());
     }
 
+    public Matrix getOneRow(int row) {
+        int n = getCols();
+        Matrix matrix = Matrix.create(1, n);
+        for (int i = 0; i < n; i++) {
+            matrix.set(get(row, i), 0, i);
+        }
+        return matrix;
+    }
+
+    public Matrix getOneCol(int col) {
+        int m = getRows();
+
+        Matrix matrix = Matrix.create(m, 1);
+        for (int i = 0; i < m; i++) {
+            matrix.set(get(i, col), i, 0);
+        }
+
+        return matrix;
+    }
+
     public Matrix getMatrix(int... subscripts) {
-        return null;
+        if (subscripts[0] == DIMENSION_WILDCARD && subscripts[1] == DIMENSION_WILDCARD) return this;
+
+        if (subscripts[0] == DIMENSION_WILDCARD) {
+            return getOneCol(subscripts[1]);
+        } else if (subscripts[1] == DIMENSION_WILDCARD) {
+            return getOneRow(subscripts[0]);
+        } else {
+            double value = get(subscripts);
+            Matrix matrix = Matrix.create(1, 1);
+            matrix.set(value, 1, 1);
+            return matrix;
+        }
     }
 
     public Matrix add(Matrix other) {
