@@ -1,11 +1,9 @@
 package org.billcz.common.math.dense.imp;
 
 import org.billcz.common.math.Matrix2D;
-import org.billcz.common.math.subscripts.Subscripts;
 import org.billcz.common.math.util.RandomUtil;
 
 import java.util.Arrays;
-import java.util.Iterator;
 
 /**
  * Description:

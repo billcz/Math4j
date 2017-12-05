@@ -98,6 +98,15 @@ public abstract class Matrix2D extends Matrix implements Matrix2DProperties {
         return sb.toString();
     }
 
+
+    public Iterable<int[]> allValues() {
+        return new Subscripts.SubscriptIterable(getMatrixSizes());
+    }
+
+    public Matrix getMatrix(int... subscripts) {
+        return null;
+    }
+
     public Matrix add(Matrix other) {
         if (other.getDimensions() != DIMENSION_2D) return null;
         Matrix result = Matrix.create(other.getMatrixSizes());

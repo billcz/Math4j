@@ -10,5 +10,7 @@ import org.billcz.common.math.Matrix;
 public interface MatrixOperation {
     public void set(double value, int... subscripts);
     public double get(int... subscripts);
+    public Matrix getMatrix(int... subscripts);
+
     public Matrix transpose();
 }

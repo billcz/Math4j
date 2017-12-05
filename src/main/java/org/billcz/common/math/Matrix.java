@@ -35,10 +35,6 @@ public abstract class Matrix implements MatrixProperties, MatrixOperation, Matri
         return Matrix2D.random(subscripts);
     }
 
-    public Iterable<int[]> allValues() {
-        return new Subscripts.SubscriptIterable(getMatrixSizes());
-    }
-
 }
 
 

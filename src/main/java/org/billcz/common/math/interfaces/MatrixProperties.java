@@ -7,7 +7,7 @@ package org.billcz.common.math.interfaces;
  */
 public interface MatrixProperties {
     public int DIMENSION_2D = 2;
-    public int DIMENSION_WILDCARD = Integer.MAX_VALUE;
+    public int DIMENSION_WILDCARD = -0xFFFF;
 
     public int getDimensions();
     public int[] getMatrixSizes();

@@ -1,10 +1,8 @@
 package org.billcz.common.math.sparse;
 
 import org.billcz.common.math.Matrix2D;
-import org.billcz.common.math.util.RandomUtil;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**

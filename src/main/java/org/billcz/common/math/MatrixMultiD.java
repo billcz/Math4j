@@ -48,6 +48,14 @@ public abstract class MatrixMultiD extends Matrix implements MatrixMultiDPropert
         return makeIndexByRow(subscripts);
     }
 
+    public Iterable<int[]> allValues() {
+        return new Subscripts.SubscriptIterable(getMatrixSizes());
+    }
+
+    public Matrix getMatrix(int... subscripts) {
+        return null;
+    }
+
     public Matrix add(Matrix other) {
         Matrix result = Matrix.create(other.getMatrixSizes());
 
