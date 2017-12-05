@@ -139,6 +139,8 @@ public abstract class Matrix2D extends Matrix implements Matrix2DProperties {
         int n = getCols();
         int p = ((Matrix2D) other).getCols();
 
+        if (n != ((Matrix2D) other).getRows()) return null;
+
         Matrix result = Matrix.create(m, p);
 
         for (int i = 0; i < m; i++) {

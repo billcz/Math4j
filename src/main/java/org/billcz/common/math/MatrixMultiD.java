@@ -71,5 +71,9 @@ public abstract class MatrixMultiD extends Matrix {
     public double get(Subscripts subscripts) {
         return 0;
     }
+
+    public Matrix transpose() {
+        return null;
+    }
 }
 
