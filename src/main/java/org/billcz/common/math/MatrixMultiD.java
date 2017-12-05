@@ -53,6 +53,7 @@ public abstract class MatrixMultiD extends Matrix implements MatrixMultiDPropert
     }
 
     public Matrix getMatrix(int... subscripts) {
+
         return null;
     }
 

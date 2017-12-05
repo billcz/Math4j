@@ -136,7 +136,7 @@ public abstract class Matrix2D extends Matrix implements Matrix2DProperties, Mat
         } else {
             double value = get(subscripts);
             Matrix matrix = Matrix.create(1, 1);
-            matrix.set(value, 1, 1);
+            matrix.set(value, 0, 0);
             return matrix;
         }
     }

@@ -19,7 +19,7 @@ public class Application {
 //        System.out.println(m2.multiply(m1));
 //        System.out.println(Matrix.random(1, 20));
 
-        System.out.println(m1.getMatrix(Matrix.DIMENSION_WILDCARD, 2));
+        System.out.println(m1.getMatrix(2, 2));
         System.out.println(m1.getMatrix(2, Matrix.DIMENSION_WILDCARD));
     }
 }
