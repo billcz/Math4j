@@ -28,7 +28,7 @@ Math4j is a simple java lib for matrix calculation that does not use third-party
 
 #### Create Sparse Matrix
 ```java
-        Matrix sparse1 = new DefaultDenseDoubleMatrix2D(3000, 4000);
+        Matrix sparse1 = new DefaultSparseDoubleMatrix2D(3000, 4000);
         sparse1.set(200, 223, 222);
         sparse1.get(223, 222);
 ```
