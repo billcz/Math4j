@@ -1,5 +1,6 @@
 package org.billcz.common.math.dense.imp;
 
+import org.billcz.common.math.Matrix;
 import org.billcz.common.math.Matrix2D;
 import org.billcz.common.math.util.RandomUtil;
 
@@ -39,6 +40,10 @@ public class DefaultDenseDoubleMatrix2D extends Matrix2D {
         }
     }
 
+    public void setValues(double[] values) {
+        this.values = values;
+    }
+
     public void set(double value, int i, int j) {
         values[makeIndex(i, j)] = value;
     }
@@ -50,5 +55,4 @@ public class DefaultDenseDoubleMatrix2D extends Matrix2D {
     public boolean isSparse() {
         return false;
     }
-
 }

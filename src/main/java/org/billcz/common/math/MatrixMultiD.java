@@ -2,6 +2,7 @@ package org.billcz.common.math;
 
 
 import org.billcz.common.math.dense.imp.DefaultDenseDoubleMatrixMultiD;
+import org.billcz.common.math.interfaces.MatrixMultiDOperation;
 import org.billcz.common.math.interfaces.MatrixMultiDProperties;
 import org.billcz.common.math.sparse.DefaultSparseDoubleMatrixMultiD;
 import org.billcz.common.math.subscripts.Subscripts;
@@ -13,7 +14,7 @@ import java.util.Iterator;
  * Author: billcz
  * Create time: 2017/12/4
  */
-public abstract class MatrixMultiD extends Matrix implements MatrixMultiDProperties {
+public abstract class MatrixMultiD extends Matrix implements MatrixMultiDProperties, MatrixMultiDOperation {
     private int[] sizes;
 
     public MatrixMultiD(int[] sizes) {

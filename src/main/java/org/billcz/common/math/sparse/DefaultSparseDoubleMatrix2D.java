@@ -1,5 +1,6 @@
 package org.billcz.common.math.sparse;
 
+import org.billcz.common.math.Matrix;
 import org.billcz.common.math.Matrix2D;
 
 import java.util.HashMap;
