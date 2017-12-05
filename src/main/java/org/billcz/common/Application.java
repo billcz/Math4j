@@ -1,6 +1,7 @@
 package org.billcz.common;
 
 import org.billcz.common.math.Matrix;
+import org.billcz.common.math.dense.imp.DefaultDenseDoubleMatrix2D;
 
 /**
  * Description:
@@ -9,15 +10,35 @@ import org.billcz.common.math.Matrix;
  */
 public class Application {
     public static void main(String[] args) {
-        Matrix m1 = Matrix.random(4, 3);
-        System.out.println(m1.toString());
-//        System.out.println(m1.get(0,1));
-//
-//        Matrix m2 = Matrix.random(4,4);
-//        m2.set(3.0, 1, 1);
-//        System.out.println(m2);
-//        System.out.println(m2.multiply(m1));
-//        System.out.println(Matrix.random(1, 20));
+        Matrix m1 = Matrix.create(4, 4);
+        System.out.println(m1);
+        System.out.println(m1.get(0, 1));
+
+        Matrix m2 = Matrix.zeros(4, 4);
+        m2.set(3.0, 1, 1);
+        System.out.println(m2);
+
+        Matrix m3 = Matrix.random(3, 4);
+        System.out.println(m3);
+
+        Matrix m4 = Matrix.random(4, 4);
+        System.out.println(m4);
+
+        Matrix dense1 = new DefaultDenseDoubleMatrix2D(3000, 4000);
+        dense1.set(200, 125, 223);
+        System.out.println(dense1.get(125, 223));
+
+        Matrix sparse1 = new DefaultDenseDoubleMatrix2D(3000, 4000);
+        sparse1.set(200, 223, 222);
+        System.out.println(sparse1.get(223, 222));
+
+        Matrix highMatrix = Matrix.create(20, 30, 40, 50);
+        highMatrix.set(200, 10, 20, 30, 40);
+        System.out.println(highMatrix.get(10, 20, 30, 40));
+
+        System.out.println(m2.add(m4));
+        System.out.println(m1.subtract(m2));
+        System.out.println(m3.multiply(m4));
 
         System.out.println(m1.getMatrix(2, 2));
         System.out.println(m1.getMatrix(Matrix.DIMENSION_WILDCARD, 2));

@@ -2,6 +2,7 @@ Math4j is a simple java lib for matrix calculation that does not use third-party
 
 ## Examples
 ### Matrix create
+#### Default crate
 ```java
         Matrix m1 = Matrix.create(4, 4);
         System.out.println(m1);
@@ -17,6 +18,28 @@ Math4j is a simple java lib for matrix calculation that does not use third-party
         Matrix m4 = Matrix.random(4, 4);
         System.out.println(m4);
 ```
+
+#### Create Dense Matrix
+```java
+        Matrix dense1 = new DefaultDenseDoubleMatrix2D(3000, 4000);
+        dense1.set(200, 125, 223);
+        dense1.get(125, 223);
+```
+
+#### Create Sparse Matrix
+```java
+        Matrix sparse1 = new DefaultDenseDoubleMatrix2D(3000, 4000);
+        sparse1.set(200, 223, 222);
+        sparse1.get(223, 222);
+```
+
+#### Create High Dimension Matrix
+```java
+        Matrix highMatrix = Matrix.create(20, 30, 40, 50);
+        highMatrix.set(200, 10, 20, 30, 40);
+        highMatrix.get(10, 20, 30, 40);
+```
+
 ### Matrix calculation
 ```java
         System.out.println(m1.add(m2));

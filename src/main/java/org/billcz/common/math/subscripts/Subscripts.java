@@ -31,6 +31,10 @@ public class Subscripts {
         return subscripts[n];
     }
 
+    public void setSubscript(int dim, int n) {
+        subscripts[dim] = n;
+    }
+
     @Override
     public String toString() {
         return Arrays.toString(subscripts);
@@ -47,25 +51,41 @@ public class Subscripts {
         return true;
     }
 
+    public static Subscripts subtract(Subscripts subscripts, int v) {
+        Subscripts result = new Subscripts(subscripts.getLength());
+        for (int i = subscripts.getLength() - 1; i != -1; i--) {
+            result.setSubscript(i, subscripts.getSubscript(i) - v);
+        }
+        return result;
+    }
+
+    public static boolean equal(Subscripts subscripts1, Subscripts subscripts2) {
+        for (int i = 0; i < subscripts1.getLength(); i++) {
+            if (subscripts1.getSubscript(i) != subscripts2.getSubscript(i)) return false;
+        }
+        return true;
+    }
 
     public static class SubscriptIterable implements Iterable<int[]> {
         Subscripts sizes;
         Subscripts cursor;
-
+        Subscripts last;
         public SubscriptIterable(int... sizes) {
             this.sizes = new Subscripts(sizes);
             this.cursor = new Subscripts(sizes.length);
+            this.cursor.setSubscript(sizes.length - 1, -1);
+            this.last = Subscripts.subtract(this.sizes, 1);
         }
 
         public Iterator<int[]> iterator() {
             return new Iterator<int[]>() {
                 public boolean hasNext() {
-                    return Subscripts.lt(cursor, sizes);
+                    return !Subscripts.equal(cursor, last);
                 }
 
                 public int[] next() {
                     int[] values = cursor.subscripts;
-                    increment(values.length, 1);
+                    increment(values.length - 1, 1);
                     return values;
                 }
 
