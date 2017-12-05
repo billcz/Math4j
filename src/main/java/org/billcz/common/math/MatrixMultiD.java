@@ -110,7 +110,7 @@ public abstract class MatrixMultiD extends Matrix implements MatrixMultiDPropert
     private int makeIndexByRow(int... subscripts) {
         int product = 1;
         int index = 0;
-        for (int i = subscripts.length -1 ; i > 0; i--) {
+        for (int i = subscripts.length -1 ; i != -1; i--) {
             int subscript = subscripts[i];
             index += product * subscript;
             product *= sizes[i];
