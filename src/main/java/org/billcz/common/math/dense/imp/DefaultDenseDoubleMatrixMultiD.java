@@ -1,6 +1,10 @@
 package org.billcz.common.math.dense.imp;
 
 import org.billcz.common.math.MatrixMultiD;
+import org.billcz.common.math.subscripts.Subscripts;
+import org.billcz.common.math.util.RandomUtil;
+
+import java.util.Iterator;
 
 /**
  * Description:
@@ -9,9 +13,9 @@ import org.billcz.common.math.MatrixMultiD;
  */
 public class DefaultDenseDoubleMatrixMultiD extends MatrixMultiD {
     private double[] values;
-    private int[] sizes;
 
     public DefaultDenseDoubleMatrixMultiD(int...sizes) {
+        super(sizes);
         init(sizes);
     }
 
@@ -30,7 +34,6 @@ public class DefaultDenseDoubleMatrixMultiD extends MatrixMultiD {
     }
 
     private void init(int... sizes) {
-        this.sizes = sizes;
         int dimension = 1;
         for (int size : sizes) {
             dimension *= size;
@@ -40,15 +43,20 @@ public class DefaultDenseDoubleMatrixMultiD extends MatrixMultiD {
 
     private void random() {
         for (int i = 0; i < values.length; i++) {
-            values[i] = Math.random();
+            values[i] = RandomUtil.randomInt();
         }
     }
 
     public boolean isSparse() {
-        return true;
+        return false;
     }
 
-    public int getMatrixSize(int n) {
-        return 0;
+    public void set(double value, int... subscripts) {
+        values[makeIndex(subscripts)] = value;
     }
+
+    public double get(int... subscripts) {
+        return values[makeIndex(subscripts)];
+    }
+
 }

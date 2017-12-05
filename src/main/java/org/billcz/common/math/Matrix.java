@@ -5,6 +5,7 @@ import org.billcz.common.math.interfaces.MatrixIterateable;
 import org.billcz.common.math.interfaces.MatrixCalculation;
 import org.billcz.common.math.interfaces.MatrixOperation;
 import org.billcz.common.math.interfaces.MatrixProperties;
+import org.billcz.common.math.subscripts.Subscripts;
 
 /**
  * Description:
@@ -34,16 +35,10 @@ public abstract class Matrix implements MatrixProperties, MatrixOperation, Matri
         return Matrix2D.random(subscripts);
     }
 
-    public boolean isSameType(Matrix other) {
-        if (getDimensions() != other.getDimensions()) return false;
-
-        int[] sizes = getMatrixSizes();
-        for (int i = 0; i < sizes.length; i++) {
-            if (sizes[i] != other.getMatrixSize(i)) return false;
-        }
-
-        return isSparse() == isSparse();
+    public Iterable<int[]> allValues() {
+        return new Subscripts.SubscriptIterable(getMatrixSizes());
     }
+
 }
 
 

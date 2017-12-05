@@ -47,22 +47,11 @@ public abstract class Matrix2D extends Matrix implements Matrix2DProperties {
         set(value, subscripts[0], subscripts[1]);
     }
 
-    public void set(double value, Subscripts subscripts) {
-        if (subscripts.getDimension() > DIMENSION_2D) return;
-        set(value, subscripts.getSubscript(0), subscripts.getSubscript(1));
-    }
-
-
     public abstract void set(double value, int i , int j);
 
     public double get(int... subscripts) {
         if (subscripts.length != DIMENSION_2D) return Double.NaN;
         return get(subscripts[0], subscripts[1]);
-    }
-
-    public double get(Subscripts subscripts) {
-        if (subscripts.getDimension() > DIMENSION_2D) return Double.NaN;
-        return get(subscripts.getSubscript(0), subscripts.getSubscript(1));
     }
 
     public abstract double get(int i, int j);

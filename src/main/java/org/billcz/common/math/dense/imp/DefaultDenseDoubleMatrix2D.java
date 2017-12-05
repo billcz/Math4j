@@ -1,6 +1,8 @@
 package org.billcz.common.math.dense.imp;
 
 import org.billcz.common.math.Matrix2D;
+import org.billcz.common.math.subscripts.Subscripts;
+import org.billcz.common.math.util.RandomUtil;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -35,7 +37,7 @@ public class DefaultDenseDoubleMatrix2D extends Matrix2D {
 
     private void random() {
         for (int i = 0; i < values.length; i++) {
-            values[i] = ((int) (Math.random() * 1000)) / 1000.0;
+            values[i] = RandomUtil.randomInt();
         }
     }
 
@@ -49,36 +51,6 @@ public class DefaultDenseDoubleMatrix2D extends Matrix2D {
 
     public boolean isSparse() {
         return false;
-    }
-
-    public Iterable<int[]> allValues() {
-        return new DefaultDenseDoubleMatrix2DIterable();
-    }
-
-    class DefaultDenseDoubleMatrix2DIterable implements Iterable<int[]> {
-        private int cursor = 0;
-
-        public Iterator<int[]> iterator() {
-
-            return new Iterator<int[]>() {
-
-                public boolean hasNext() {
-                    return cursor < values.length;
-                }
-
-                public int[] next() {
-                    int[] subscripts = new int[2];
-                    subscripts[0] = cursor / getCols();
-                    subscripts[1] = cursor % getCols();
-                    cursor++;
-                    return subscripts;
-                }
-
-                public void remove() {
-
-                }
-            };
-        }
     }
 
 }

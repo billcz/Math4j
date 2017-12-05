@@ -1,7 +1,6 @@
 package org.billcz.common.math.interfaces;
 
 import org.billcz.common.math.Matrix;
-import org.billcz.common.math.subscripts.Subscripts;
 
 /**
  * Description:
@@ -10,8 +9,6 @@ import org.billcz.common.math.subscripts.Subscripts;
  */
 public interface MatrixOperation {
     public void set(double value, int... subscripts);
-    public void set(double value, Subscripts subscripts);
     public double get(int... subscripts);
-    public double get(Subscripts subscripts);
     public Matrix transpose();
 }

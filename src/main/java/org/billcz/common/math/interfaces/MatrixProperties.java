@@ -1,7 +1,5 @@
 package org.billcz.common.math.interfaces;
 
-import org.billcz.common.math.Matrix;
-
 /**
  * Description:
  * Author: billcz
@@ -9,11 +7,10 @@ import org.billcz.common.math.Matrix;
  */
 public interface MatrixProperties {
     public int DIMENSION_2D = 2;
+    public int DIMENSION_WILDCARD = Integer.MAX_VALUE;
 
     public int getDimensions();
-
     public int[] getMatrixSizes();
     public int getMatrixSize(int n);
     public boolean isSparse();
-    public boolean isSameType(Matrix other);
 }
