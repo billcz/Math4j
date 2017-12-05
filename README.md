@@ -27,8 +27,8 @@ Math4j is a simple java lib for matrix calculation that does not use third-party
 ### Matrix block
 ```java
         System.out.println(m1.getMatrix(2, 2));
-        System.out.println(m1.getMatrix(Matrix.DIMENSION_WILDCARD, 2));
-        System.out.println(m1.getMatrix(2, Matrix.DIMENSION_WILDCARD));
+        System.out.println(m1.getMatrix(Matrix.DIMENSION_WILDCARD, 2)); // get the third cols
+        System.out.println(m1.getMatrix(2, Matrix.DIMENSION_WILDCARD)); // get the third rows
 ```
 
 Have fun~
