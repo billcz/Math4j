@@ -2,6 +2,7 @@ package org.billcz.common;
 
 import org.billcz.common.math.Matrix;
 import org.billcz.common.math.dense.imp.DefaultDenseDoubleMatrix2D;
+import org.billcz.common.math.sparse.DefaultSparseDoubleMatrix2D;
 
 /**
  * Description:
@@ -28,7 +29,7 @@ public class Application {
         dense1.set(200, 125, 223);
         System.out.println(dense1.get(125, 223));
 
-        Matrix sparse1 = new DefaultDenseDoubleMatrix2D(3000, 4000);
+        Matrix sparse1 = new DefaultSparseDoubleMatrix2D(3000, 4000);
         sparse1.set(200, 223, 222);
         System.out.println(sparse1.get(223, 222));
 
