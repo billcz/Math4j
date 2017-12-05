@@ -8,7 +8,10 @@ import org.billcz.common.math.Matrix;
  * Create time: 2017/12/4
  */
 public interface MatrixProperties {
+    public int DIMENSION_2D = 2;
+
     public int getDimensions();
+
     public int[] getMatrixSizes();
     public int getMatrixSize(int n);
     public boolean isSparse();

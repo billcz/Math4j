@@ -9,6 +9,6 @@ import org.billcz.common.math.Matrix;
  */
 public interface MatrixCalculation {
     public Matrix add(Matrix other);
-    public Matrix substract(Matrix other);
+    public Matrix subtract(Matrix other);
     public Matrix multiply(Matrix other);
 }

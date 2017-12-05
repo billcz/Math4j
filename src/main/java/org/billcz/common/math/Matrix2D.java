@@ -27,23 +27,15 @@ public abstract class Matrix2D extends Matrix implements Matrix2DProperties {
     }
 
     public static Matrix2D zeros(int... subscripts) {
-        if (subscripts.length > 2) return null;
+        if (subscripts.length != DIMENSION_2D) return null;
 
-        if (subscripts.length == 2) {
-            return DefaultDenseDoubleMatrix2D.zeros(subscripts[0], subscripts[1]);
-        } else {
-            return DefaultDenseDoubleMatrix2D.zeros(subscripts[0], 1);
-        }
+        return isNeedSparse(subscripts) ? DefaultSparseDoubleMatrix2D.zeros(subscripts[0], subscripts[1]) : DefaultDenseDoubleMatrix2D.zeros(subscripts[0], subscripts[1]);
     }
 
     public static Matrix2D random(int... subscripts) {
-        if (subscripts.length > 2) return null;
+        if (subscripts.length != DIMENSION_2D) return null;
 
-        if (subscripts.length == 2) {
-            return DefaultDenseDoubleMatrix2D.random(subscripts[0], subscripts[1]);
-        } else {
-            return DefaultDenseDoubleMatrix2D.random(subscripts[0], 1);
-        }
+        return isNeedSparse(subscripts) ? DefaultSparseDoubleMatrix2D.random(subscripts[0], subscripts[1]) : DefaultDenseDoubleMatrix2D.random(subscripts[0], subscripts[1]);
     }
 
     public int makeIndex(int i, int j) {
@@ -51,12 +43,12 @@ public abstract class Matrix2D extends Matrix implements Matrix2DProperties {
     }
 
     public void set(double value, int... subscripts) {
-        if (subscripts.length != 2) return;
+        if (subscripts.length != DIMENSION_2D) return;
         set(value, subscripts[0], subscripts[1]);
     }
 
     public void set(double value, Subscripts subscripts) {
-        if (subscripts.getDimension() > 2) return;
+        if (subscripts.getDimension() > DIMENSION_2D) return;
         set(value, subscripts.getSubscript(0), subscripts.getSubscript(1));
     }
 
@@ -64,12 +56,12 @@ public abstract class Matrix2D extends Matrix implements Matrix2DProperties {
     public abstract void set(double value, int i , int j);
 
     public double get(int... subscripts) {
-        if (subscripts.length != 2) return Double.NaN;
+        if (subscripts.length != DIMENSION_2D) return Double.NaN;
         return get(subscripts[0], subscripts[1]);
     }
 
     public double get(Subscripts subscripts) {
-        if (subscripts.getDimension() > 2) return Double.NaN;
+        if (subscripts.getDimension() > DIMENSION_2D) return Double.NaN;
         return get(subscripts.getSubscript(0), subscripts.getSubscript(1));
     }
 
@@ -80,7 +72,7 @@ public abstract class Matrix2D extends Matrix implements Matrix2DProperties {
     }
 
     public int getDimensions() {
-        return 2;
+        return DIMENSION_2D;
     }
 
     public int getCols() {
@@ -88,7 +80,7 @@ public abstract class Matrix2D extends Matrix implements Matrix2DProperties {
     }
 
     public int[] getMatrixSizes() {
-        int[] sizes = new int[2];
+        int[] sizes = new int[DIMENSION_2D];
         sizes[0] = rows;
         sizes[1] = cols;
         return sizes;
@@ -118,16 +110,10 @@ public abstract class Matrix2D extends Matrix implements Matrix2DProperties {
     }
 
     public Matrix add(Matrix other) {
-        if (other.getDimensions() != 2) return null;
-        Matrix result = new DefaultDenseDoubleMatrix2D(rows, cols);
+        if (other.getDimensions() != DIMENSION_2D) return null;
+        Matrix result = Matrix.create(other.getMatrixSizes());
 
-        if (isSparse() || other.isSparse()) {
-            result = new DefaultSparseDoubleMatrix2D(rows, cols);
-        }
-
-        Iterator<int[]> it = other.allValues();
-        while (it.hasNext()) {
-            int[] subscripts = it.next();
+        for (int[] subscripts : other.allValues()) {
             double sum = this.get(subscripts) + other.get(subscripts);
             result.set(sum, subscripts);
         }
@@ -135,11 +121,53 @@ public abstract class Matrix2D extends Matrix implements Matrix2DProperties {
         return result;
     }
 
-    public Matrix substract(Matrix other) {
-        return null;
+    public Matrix subtract(Matrix other) {
+        if (other.getDimensions() != DIMENSION_2D) return null;
+        Matrix result = Matrix.create(other.getMatrixSizes());
+
+        for (int[] subscripts : other.allValues()) {
+            double diff = this.get(subscripts) - other.get(subscripts);
+            result.set(diff, subscripts);
+        }
+
+        return result;
     }
 
     public Matrix multiply(Matrix other) {
-        return null;
+        if (other.getDimensions() != DIMENSION_2D) return null;
+        int m = getRows();
+        int n = getCols();
+        int p = ((Matrix2D) other).getCols();
+
+        Matrix result = Matrix.create(m, p);
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < p; k++) {
+                    result.set(result.get(i, k) + get(i,j) * other.get(j, k), i, k);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public Matrix transpose() {
+        int m = getRows();
+        int n = getCols();
+
+        Matrix result = Matrix.create(n, m);
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                result.set(get(i, j), j, i);
+            }
+        }
+
+        return result;
+    }
+
+    private static boolean isNeedSparse(int... subscripts) {
+        return subscripts[0] > DIMENSION_SPARSE_LIMIT || subscripts[1] > DIMENSION_SPARSE_LIMIT;
     }
 }

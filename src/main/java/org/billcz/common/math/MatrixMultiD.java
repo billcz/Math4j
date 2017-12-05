@@ -40,11 +40,11 @@ public abstract class MatrixMultiD extends Matrix {
 
     }
 
-    public Iterator<int[]> allValues() {
+    public Iterable<int[]> allValues() {
         return null;
     }
 
-    public Matrix substract(Matrix other) {
+    public Matrix subtract(Matrix other) {
         return null;
     }
 
@@ -54,6 +54,14 @@ public abstract class MatrixMultiD extends Matrix {
 
     public Matrix multiply(Matrix other) {
         return null;
+    }
+
+    public int getMatrixSize(int n) {
+        return 0;
+    }
+
+    public boolean isSparse() {
+        return false;
     }
 
     public double get(int... subscripts) {

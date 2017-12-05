@@ -19,6 +19,26 @@ public class DefaultSparseDoubleMatrix2D extends Matrix2D  {
         values = new HashMap<Integer, Double>();
     }
 
+    public static DefaultSparseDoubleMatrix2D create(int rows, int cols) {
+        return zeros(rows, cols);
+    }
+
+    public static DefaultSparseDoubleMatrix2D zeros(int rows, int cols) {
+        return new DefaultSparseDoubleMatrix2D(rows, cols);
+    }
+
+    public static DefaultSparseDoubleMatrix2D random(int rows, int cols) {
+        DefaultSparseDoubleMatrix2D matrix2D = new DefaultSparseDoubleMatrix2D(rows, cols);
+        matrix2D.random();
+        return matrix2D;
+    }
+
+    private void random() {
+        for (int k : values.keySet()) {
+            values.put(k, ((int) (Math.random() * 1000)) / 1000.0);
+        }
+    }
+
     public boolean isSparse() {
         return true;
     }
@@ -31,28 +51,31 @@ public class DefaultSparseDoubleMatrix2D extends Matrix2D  {
         return values.get(makeIndex(i, j));
     }
 
-    public Iterator<int[]> allValues() {
-        return new DefaultSparseDoubleMatrix2DIterate();
+    public Iterable<int[]> allValues() {
+        return new DefaultSparseDoubleMatrix2DIterable();
     }
 
-    class DefaultSparseDoubleMatrix2DIterate implements Iterator<int[]> {
-        private int currentIndex = 0;
+    class DefaultSparseDoubleMatrix2DIterable implements Iterable<int[]> {
+        private int cursor = 0;
+        public Iterator<int[]> iterator() {
 
-        public boolean hasNext() {
-            return currentIndex != values.size();
-        }
+            return new Iterator<int[]>() {
+                public boolean hasNext() {
+                    return cursor < values.size();
+                }
 
-        public int[] next() {
-            int[] subscripts = new int[2];
-            subscripts[0] = currentIndex / getCols();
-            subscripts[1] = currentIndex % getCols();
-            currentIndex++;
-            return subscripts;
-        }
+                public int[] next() {
+                    int[] subscripts = new int[2];
+                    subscripts[0] = cursor / getCols();
+                    subscripts[1] = cursor % getCols();
+                    cursor++;
+                    return subscripts;
+                }
 
-        public void remove() {
+                public void remove() {
 
+                }
+            };
         }
     }
-
 }

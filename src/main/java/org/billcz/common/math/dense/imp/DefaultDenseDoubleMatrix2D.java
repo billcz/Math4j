@@ -51,27 +51,33 @@ public class DefaultDenseDoubleMatrix2D extends Matrix2D {
         return false;
     }
 
-    public Iterator<int[]> allValues() {
-        return new DefaultDenseDoubleMatrix2DIterate();
+    public Iterable<int[]> allValues() {
+        return new DefaultDenseDoubleMatrix2DIterable();
     }
 
-    class DefaultDenseDoubleMatrix2DIterate implements Iterator<int[]> {
-        private int currentIndex = 0;
+    class DefaultDenseDoubleMatrix2DIterable implements Iterable<int[]> {
+        private int cursor = 0;
 
-        public boolean hasNext() {
-            return currentIndex != values.length;
-        }
+        public Iterator<int[]> iterator() {
 
-        public int[] next() {
-            int[] subscripts = new int[2];
-            subscripts[0] = currentIndex / getCols();
-            subscripts[1] = currentIndex % getCols();
-            currentIndex++;
-            return subscripts;
-        }
+            return new Iterator<int[]>() {
 
-        public void remove() {
+                public boolean hasNext() {
+                    return cursor < values.length;
+                }
 
+                public int[] next() {
+                    int[] subscripts = new int[2];
+                    subscripts[0] = cursor / getCols();
+                    subscripts[1] = cursor % getCols();
+                    cursor++;
+                    return subscripts;
+                }
+
+                public void remove() {
+
+                }
+            };
         }
     }
 

@@ -1,7 +1,5 @@
 package org.billcz.common.math.interfaces;
 
-import java.util.Iterator;
-
 /**
  * Description:
  * Author: billcz
@@ -9,6 +7,6 @@ import java.util.Iterator;
  */
 public interface MatrixIterateable {
 
-    public Iterator<int[]> allValues();
+    public Iterable<int[]> allValues();
 
 }
