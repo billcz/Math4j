@@ -157,6 +157,14 @@ public abstract class MatrixMultiD extends Matrix implements MatrixMultiDPropert
         return sb.toString();
     }
 
+    public Subscript getSubscript() {
+        return subscript;
+    }
+
+    public void setSubscript(Subscript subscript) {
+        this.subscript = subscript;
+    }
+
     private static boolean isNeedSparse(int... subscripts) {
         for (int subscript : subscripts) {
             if (subscript > DIMENSION_SPARSE_LIMIT) return true;
