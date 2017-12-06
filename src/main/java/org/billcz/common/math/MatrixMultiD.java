@@ -5,9 +5,10 @@ import org.billcz.common.math.dense.imp.DefaultDenseDoubleMatrixMultiD;
 import org.billcz.common.math.interfaces.MatrixMultiDOperation;
 import org.billcz.common.math.interfaces.MatrixMultiDProperties;
 import org.billcz.common.math.sparse.DefaultSparseDoubleMatrixMultiD;
-import org.billcz.common.math.subscripts.Subscripts;
+import org.billcz.common.math.subscripts.Subscript;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Description:
@@ -16,9 +17,11 @@ import java.util.Iterator;
  */
 public abstract class MatrixMultiD extends Matrix implements MatrixMultiDProperties, MatrixMultiDOperation {
     private int[] sizes;
+    private Subscript subscript;
 
     public MatrixMultiD(int[] sizes) {
         this.sizes = sizes;
+        this.subscript = new Subscript(sizes);
     }
 
     public static MatrixMultiD create(int... subscripts) {
@@ -50,13 +53,61 @@ public abstract class MatrixMultiD extends Matrix implements MatrixMultiDPropert
     }
 
     public Iterable<int[]> allValues() {
-        return new Subscripts.SubscriptIterable(getMatrixSizes());
+        return new Subscript.SubscriptIterable(getMatrixSizes());
     }
 
-    public Matrix getMatrix(int... subscripts) {
+    public List<Matrix> getMatrix(int... subscripts) {
+        int selectedRows = subscripts[ROW];
+        int selectedCols = subscripts[COL];
 
-        return null;
+        int matrixRows = getMatrixSize(ROW);
+        int matrixCols = getMatrixSize(COL);
+
+        int rows = selectedRows == DIMENSION_WILDCARD ? matrixRows : 1;
+        int cols = selectedCols == DIMENSION_WILDCARD ? matrixCols : 1;
+
+        List<Subscript> subscriptList = new ArrayList<Subscript>();
+        subscriptList.add(new Subscript(subscripts));
+        for (int i = 2; i < subscripts.length; i++) {
+            int index = subscripts[i];
+            int size = getMatrixSize(i);
+
+            if (index == DIMENSION_WILDCARD) {
+                List<Subscript> wildcardList = new ArrayList<Subscript>();
+
+                for (int j = 0; j < size; j++) {
+                    for (Subscript subscript : subscriptList) {
+                        int[] newScripts = subscript.getSubscripts().clone();
+                        newScripts[i] = j;
+                        wildcardList.add(new Subscript(newScripts));
+                    }
+                }
+
+                subscriptList = wildcardList;
+            }
+        }
+
+        List<Matrix> matrices = new ArrayList<Matrix>();
+        for (Subscript subscript : subscriptList) {
+            int[] newSizes = subscripts.clone();
+            newSizes[ROW] = rows;
+            newSizes[COL] = cols;
+            MatrixMultiD matrix = (MatrixMultiD) Matrix.create(newSizes);
+            matrix.setSubscript(subscript);
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    Subscript newSubscript = new Subscript(subscript.getSubscripts().clone());
+                    newSubscript.setSubscript(ROW, i);
+                    newSubscript.setSubscript(COL, j);
+                    matrix.set(get(newSubscript.getSubscripts()), newSubscript.getSubscripts());
+                    matrices.add(matrix);
+                }
+            }
+        }
+
+        return matrices;
     }
+
 
     public Matrix add(Matrix other) {
         Matrix result = Matrix.create(other.getMatrixSizes());
@@ -91,9 +142,16 @@ public abstract class MatrixMultiD extends Matrix implements MatrixMultiDPropert
 
     @Override
     public String toString() {
+        int[] newSubscripts = new int[sizes.length];
+        for (int i = 0; i < sizes.length; i++) {
+            newSubscripts[i] = Matrix.DIMENSION_WILDCARD;
+        }
+        List<Matrix> matrices = getMatrix(newSubscripts);
+
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        sb.append("\n");
+        sb.append(subscript);
+        sb.append("]\n");
         int[] sizes = getMatrixSizes();
 
         return sb.toString();

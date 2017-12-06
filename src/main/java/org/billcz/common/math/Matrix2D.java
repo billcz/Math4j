@@ -5,10 +5,10 @@ import org.billcz.common.math.dense.imp.DefaultDenseDoubleMatrix2D;
 import org.billcz.common.math.interfaces.Matrix2DOperation;
 import org.billcz.common.math.interfaces.Matrix2DProperties;
 import org.billcz.common.math.sparse.DefaultSparseDoubleMatrix2D;
-import org.billcz.common.math.subscripts.Subscripts;
+import org.billcz.common.math.subscripts.Subscript;
 
-import java.util.Arrays;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Description:
@@ -103,7 +103,7 @@ public abstract class Matrix2D extends Matrix implements Matrix2DProperties, Mat
 
 
     public Iterable<int[]> allValues() {
-        return new Subscripts.SubscriptIterable(getMatrixSizes());
+        return new Subscript.SubscriptIterable(getMatrixSizes());
     }
 
     public Matrix getOneRow(int row) {
@@ -126,18 +126,25 @@ public abstract class Matrix2D extends Matrix implements Matrix2DProperties, Mat
         return matrix;
     }
 
-    public Matrix getMatrix(int... subscripts) {
-        if (subscripts[0] == DIMENSION_WILDCARD && subscripts[1] == DIMENSION_WILDCARD) return this;
+    public List<Matrix> getMatrix(int... subscripts) {
+        List<Matrix> matrices = new ArrayList<Matrix>();
+        if (subscripts[0] == DIMENSION_WILDCARD && subscripts[1] == DIMENSION_WILDCARD) {
+            matrices.add(this);
+            return matrices;
+        }
 
         if (subscripts[0] == DIMENSION_WILDCARD) {
-            return getOneCol(subscripts[1]);
+            matrices.add(getOneCol(subscripts[1]));
+            return matrices;
         } else if (subscripts[1] == DIMENSION_WILDCARD) {
-            return getOneRow(subscripts[0]);
+            matrices.add(getOneRow(subscripts[0]));
+            return matrices;
         } else {
             double value = get(subscripts);
             Matrix matrix = Matrix.create(1, 1);
             matrix.set(value, 0, 0);
-            return matrix;
+            matrices.add(matrix);
+            return matrices;
         }
     }
 

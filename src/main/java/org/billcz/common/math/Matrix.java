@@ -5,7 +5,6 @@ import org.billcz.common.math.interfaces.MatrixIterateable;
 import org.billcz.common.math.interfaces.MatrixCalculation;
 import org.billcz.common.math.interfaces.MatrixOperation;
 import org.billcz.common.math.interfaces.MatrixProperties;
-import org.billcz.common.math.subscripts.Subscripts;
 
 /**
  * Description:
