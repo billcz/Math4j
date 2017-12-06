@@ -2,7 +2,7 @@ Math4j is a simple java lib for matrix calculation that does not use third-party
 
 ## Examples
 ### Matrix create
-#### Default crate
+#### Default create
 ```java
         Matrix m1 = Matrix.create(4, 4);
         System.out.println(m1);
