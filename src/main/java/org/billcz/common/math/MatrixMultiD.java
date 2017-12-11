@@ -8,6 +8,7 @@ import org.billcz.common.math.sparse.DefaultSparseDoubleMatrixMultiD;
 import org.billcz.common.math.subscripts.Subscript;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -89,7 +90,8 @@ public abstract class MatrixMultiD extends Matrix implements MatrixMultiDPropert
 
         List<Matrix> matrices = new ArrayList<Matrix>();
         for (Subscript subscript : subscriptList) {
-            int[] newSizes = subscripts.clone();
+            int[] newSizes = new int[subscripts.length];
+            Arrays.fill(newSizes, 1);
             newSizes[ROW] = rows;
             newSizes[COL] = cols;
             MatrixMultiD matrix = (MatrixMultiD) Matrix.create(newSizes);
@@ -97,12 +99,16 @@ public abstract class MatrixMultiD extends Matrix implements MatrixMultiDPropert
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
                     Subscript newSubscript = new Subscript(subscript.getSubscripts().clone());
-                    newSubscript.setSubscript(ROW, i);
-                    newSubscript.setSubscript(COL, j);
-                    matrix.set(get(newSubscript.getSubscripts()), newSubscript.getSubscripts());
-                    matrices.add(matrix);
+                    if (rows != 1) newSubscript.setSubscript(ROW, i);
+                    if (cols != 1) newSubscript.setSubscript(COL, j);
+                    double value = get(newSubscript.getSubscripts());
+                    Arrays.fill(newSubscript.getSubscripts(), 2, newSubscript.getLength(), 0);
+                    if (rows == 1) newSubscript.setSubscript(ROW, 0);
+                    if (cols == 1) newSubscript.setSubscript(COL, 0);
+                    matrix.set(value, newSubscript.getSubscripts());
                 }
             }
+            matrices.add(matrix);
         }
 
         return matrices;
@@ -142,18 +148,19 @@ public abstract class MatrixMultiD extends Matrix implements MatrixMultiDPropert
 
     @Override
     public String toString() {
+        if (subscript.isWildcard()) {
+            return getMatrix();
+        }
         int[] newSubscripts = new int[sizes.length];
         for (int i = 0; i < sizes.length; i++) {
             newSubscripts[i] = Matrix.DIMENSION_WILDCARD;
         }
         List<Matrix> matrices = getMatrix(newSubscripts);
-
         StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        sb.append(subscript);
-        sb.append("]\n");
-        int[] sizes = getMatrixSizes();
-
+        for (Matrix matrix : matrices) {
+            sb.append(matrix);
+            sb.append("\n");
+        }
         return sb.toString();
     }
 
@@ -163,6 +170,28 @@ public abstract class MatrixMultiD extends Matrix implements MatrixMultiDPropert
 
     public void setSubscript(Subscript subscript) {
         this.subscript = subscript;
+    }
+
+    private String getMatrix() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("[");
+        sb.append(subscript);
+        sb.append("]\n");
+        for (int i = 0; i < getMatrixSize(ROW); i++) {
+            for (int j = 0; j < getMatrixSize(COL); j++) {
+                Subscript newSubscript = new Subscript(subscript.getSubscripts().clone());
+                Arrays.fill(newSubscript.getSubscripts(), 0);
+                newSubscript.setSubscript(ROW, i);
+                newSubscript.setSubscript(COL, j);
+                sb.append(get(newSubscript.getSubscripts()));
+                if (j != getMatrixSize(COL) - 1) {
+                    sb.append(", ");
+                }
+                sb.append("\t");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
     private static boolean isNeedSparse(int... subscripts) {
@@ -176,7 +205,7 @@ public abstract class MatrixMultiD extends Matrix implements MatrixMultiDPropert
     private int makeIndexByRow(int... subscripts) {
         int product = 1;
         int index = 0;
-        for (int i = subscripts.length -1 ; i != -1; i--) {
+        for (int i = 0; i < subscripts.length; i++) {
             int subscript = subscripts[i];
             index += product * subscript;
             product *= sizes[i];

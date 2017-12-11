@@ -35,14 +35,16 @@ public class Application {
 //        sparse1.set(200, 223, 222);
 //        System.out.println(sparse1.get(223, 222));
 
-        Matrix highMatrix = Matrix.create(3, 3, 3, 3);
-//        highMatrix.set(200, 1, 2, 3, 4);
-//        System.out.println(highMatrix.get(1, 2, 3, 4));
-        List<Matrix> matrixList = highMatrix.getMatrix(Matrix.DIMENSION_WILDCARD, 2, Matrix.DIMENSION_WILDCARD, Matrix.DIMENSION_WILDCARD);
+        Matrix highMatrix = Matrix.random(3, 3, 3);
+        highMatrix.set(200, 1, 2, 2);
+        System.out.println(highMatrix);
+
+        List<Matrix> matrixList = highMatrix.getMatrix(Matrix.DIMENSION_WILDCARD, 2, Matrix.DIMENSION_WILDCARD);
 
         for (Matrix matrix : matrixList) {
             System.out.println(matrix);
         }
+
 //        System.out.println(m2.add(m4));
 //        System.out.println(m1.subtract(m2));
 //        System.out.println(m3.multiply(m4));

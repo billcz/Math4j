@@ -37,6 +37,12 @@ public class Subscript {
         subscripts[dim] = n;
     }
 
+    public boolean isWildcard() {
+        for (int subscript : subscripts) {
+            if (subscript == Matrix.DIMENSION_WILDCARD) return true;
+        }
+        return false;
+    }
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
@@ -47,7 +53,7 @@ public class Subscript {
             } else {
                 sb.append(subscript);
             }
-            if (i < subscripts.length) {
+            if (i != subscripts.length - 1) {
                 sb.append(", ");
             }
         }
